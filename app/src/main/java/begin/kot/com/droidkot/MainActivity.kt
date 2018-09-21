@@ -13,10 +13,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //val text = findViewById<TextView>(R.id.toast)
-        toast.text="Hello Kotlin Make it easy for me"
+        toast.text="Hello Kotlin Make it easy for mee"
         
 
     }
-    
+
     //fun display()=Toast.makeText(applicationContext,"message",Toast.LENGTH_SHORT).show()
 }
