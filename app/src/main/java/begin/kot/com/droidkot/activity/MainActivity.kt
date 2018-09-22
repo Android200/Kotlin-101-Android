@@ -1,13 +1,11 @@
-package begin.kot.com.droidkot
+package begin.kot.com.droidkot.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import begin.kot.com.droidkot.R
+import begin.kot.com.droidkot.adapter.ForecastListAdapter
 
 
 class MainActivity : AppCompatActivity() {
