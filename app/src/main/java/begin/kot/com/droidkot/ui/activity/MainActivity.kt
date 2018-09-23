@@ -1,17 +1,16 @@
-package begin.kot.com.droidkot.activity
+package begin.kot.com.droidkot.ui.activity
 
-import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.widget.Toast
 import begin.kot.com.droidkot.R
-import begin.kot.com.droidkot.adapter.ForecastListAdapter
+import begin.kot.com.droidkot.data.Request
+import begin.kot.com.droidkot.ui.adapter.ForecastListAdapter
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
 import org.jetbrains.anko.longToast
-import org.jetbrains.anko.toast
-import javax.xml.datatype.Duration
+import org.jetbrains.anko.uiThread
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,22 +27,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //val forcastList = findViewById<RecyclerView>(R.id.forcast_list) using kotlin
+
         val forcastList = find<RecyclerView>(R.id.forcast_list)// using anko library
         forcastList.layoutManager = LinearLayoutManager(this)
         forcastList.adapter = ForecastListAdapter(items)
 
-        toast("Hello Mars", Toast.LENGTH_SHORT)// extension function
-        toast("Hello Earth",Toast.LENGTH_SHORT)// kotlin
-        toast("Hello Jupiter",Toast.LENGTH_SHORT)// Anko Library
-        longToast("Hello Pluto")// Anko Library
-        longToast("Hello Sun")// kotlin
-    }
+        val url = "http://api.openweathermap.org/data/2.5/forecast/daily?APPID=15646a06818f61f7b8d7823ca833e1ce&q=Kano&mode=json&units=metric&cnt=7" +
+                ""
 
-    // Extension Function
-    fun Context.toast(message: CharSequence,duration: Int = Toast.LENGTH_SHORT){
-        Toast.makeText(this,message,duration).show()
-    }
+        doAsync {
+            Request(url).run()
+            uiThread { longToast("Request performed") }
+        }
 
+
+    }
 
 }
