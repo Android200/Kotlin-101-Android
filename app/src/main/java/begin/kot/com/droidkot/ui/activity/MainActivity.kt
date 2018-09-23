@@ -32,8 +32,7 @@ class MainActivity : AppCompatActivity() {
         forcastList.layoutManager = LinearLayoutManager(this)
         forcastList.adapter = ForecastListAdapter(items)
 
-        val url = "http://api.openweathermap.org/data/2.5/forecast/daily?APPID=15646a06818f61f7b8d7823ca833e1ce&q=Kano&mode=json&units=metric&cnt=7" +
-                ""
+        val url = "http://api.openweathermap.org/data/2.5/forecast/daily?APPID=15646a06818f61f7b8d7823ca833e1ce&q=Kano&mode=json&units=metric&cnt=7"
 
         doAsync {
             Request(url).run()
