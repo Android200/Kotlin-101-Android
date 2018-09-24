@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import begin.kot.com.droidkot.R
-import begin.kot.com.droidkot.data.Request
+import begin.kot.com.droidkot.data.ForecastRequest
+import begin.kot.com.droidkot.domain.commands.RequestForecastCommand
 import begin.kot.com.droidkot.ui.adapter.ForecastListAdapter
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
@@ -30,13 +31,15 @@ class MainActivity : AppCompatActivity() {
 
         val forcastList = find<RecyclerView>(R.id.forcast_list)// using anko library
         forcastList.layoutManager = LinearLayoutManager(this)
-        forcastList.adapter = ForecastListAdapter(items)
 
-        val url = "http://api.openweathermap.org/data/2.5/forecast/daily?APPID=15646a06818f61f7b8d7823ca833e1ce&q=Kano&mode=json&units=metric&cnt=7"
+
+
 
         doAsync {
-            Request(url).run()
-            uiThread { longToast("Request performed") }
+            val result = RequestForecastCommand("Kano").execute()
+            uiThread {
+                forcastList.adapter = ForecastListAdapter(result)
+            }
         }
 
 
