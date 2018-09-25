@@ -7,11 +7,9 @@ import android.support.v7.widget.RecyclerView
 import begin.kot.com.droidkot.R
 import begin.kot.com.droidkot.data.ForecastRequest
 import begin.kot.com.droidkot.domain.commands.RequestForecastCommand
+import begin.kot.com.droidkot.domain.model.Forecast
 import begin.kot.com.droidkot.ui.adapter.ForecastListAdapter
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.find
-import org.jetbrains.anko.longToast
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,7 +36,13 @@ class MainActivity : AppCompatActivity() {
         doAsync {
             val result = RequestForecastCommand("Kano").execute()
             uiThread {
-                forcastList.adapter = ForecastListAdapter(result)
+                forcastList.adapter = ForecastListAdapter(result,
+                        object : ForecastListAdapter.OnItemClickListener{
+                            override fun invoke(forecast: Forecast) {
+                                toast(forecast.date)
+                            }
+                        })
+
             }
         }
 
