@@ -10,6 +10,7 @@ import begin.kot.com.droidkot.domain.commands.RequestForecastCommand
 import begin.kot.com.droidkot.domain.model.Forecast
 import begin.kot.com.droidkot.ui.adapter.ForecastListAdapter
 import org.jetbrains.anko.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val forcastList = find<RecyclerView>(R.id.forcast_list)// using anko library
+        //val forcastList = find<RecyclerView>(R.id.forcast_list)// using anko library
         forcastList.layoutManager = LinearLayoutManager(this)
 
 
