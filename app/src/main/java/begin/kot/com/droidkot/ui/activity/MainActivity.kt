@@ -3,11 +3,8 @@ package begin.kot.com.droidkot.ui.activity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import begin.kot.com.droidkot.R
-import begin.kot.com.droidkot.data.ForecastRequest
 import begin.kot.com.droidkot.domain.commands.RequestForecastCommand
-import begin.kot.com.droidkot.domain.model.Forecast
 import begin.kot.com.droidkot.ui.adapter.ForecastListAdapter
 import org.jetbrains.anko.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,9 +32,9 @@ class MainActivity : AppCompatActivity() {
 
 
         doAsync {
-            val result = RequestForecastCommand("Kano").execute()
-            uiThread {
-                val adapter = ForecastListAdapter(result) { toast(it.date) }
+            val result = RequestForecastCommand(94043).execute()
+            uiThread { it ->
+                val adapter = ForecastListAdapter(result) { toast(it.description) }
                 forcastList.adapter = adapter
             }
         }
