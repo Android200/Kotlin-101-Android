@@ -1,15 +1,12 @@
-package begin.kot.com.droidkot.domain.mappers
+package begin.kot.com.droidkot.data.server
 
-import begin.kot.com.droidkot.data.server.Forecast
-import begin.kot.com.droidkot.data.server.ForecastResult
 import begin.kot.com.droidkot.domain.model.Forecast as ModelForecast
 import begin.kot.com.droidkot.domain.model.ForecastList
-import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-public class ForecastDataMapper {
-    fun convertFromDataModel(zipCode: Long, forecast: ForecastResult) = with(forecast) {
+class ServerDataMapper {
+    fun convertToDomain(zipCode: Long, forecast: ForecastResult) = with(forecast) {
         ForecastList(zipCode, city.name, city.country, convertForecastListToDomain(list))
     }
     private fun convertForecastListToDomain(list: List<Forecast>): List<ModelForecast> {

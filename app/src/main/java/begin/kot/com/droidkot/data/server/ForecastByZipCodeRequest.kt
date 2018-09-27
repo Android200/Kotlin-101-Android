@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import java.net.URL
 
 
-class ForecastRequest(val zipCode: Long) {
+class ForecastByZipCodeRequest(private val zipCode: Long, val gson: Gson = Gson()) {
   companion object {
 
       //val url = "http://api.openweathermap.org/data/2.5/forecast/daily?APPID=15646a06818f61f7b8d7823ca833e1ce&q=Kano&mode=json&units=metric&cnt=7"
@@ -15,7 +15,7 @@ class ForecastRequest(val zipCode: Long) {
   }
     fun execute(): ForecastResult {
         val forecastJson = URL(COMPLETE_URL + zipCode).readText()
-        return Gson().fromJson(forecastJson, ForecastResult::class.java)
+        return gson.fromJson(forecastJson, ForecastResult::class.java)
     }
 
 }

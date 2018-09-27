@@ -1,6 +1,7 @@
 package begin.kot.com.droidkot.data.db
 
 import begin.kot.com.droidkot.data.db.*
+import begin.kot.com.droidkot.domain.datasource.ForecastDataSource
 import begin.kot.com.droidkot.domain.model.ForecastList
 import begin.kot.com.droidkot.extensions.clear
 import begin.kot.com.droidkot.extensions.parseList
@@ -11,9 +12,9 @@ import org.jetbrains.anko.db.select
 import java.util.*
 
 class ForecastDb(private val forecastDbHelper: ForecastDbHelper = ForecastDbHelper.instance,
-                 private val dataMapper: DbDataMapper = DbDataMapper()) {
+                 private val dataMapper: DbDataMapper = DbDataMapper()): ForecastDataSource {
 
-    fun requestForecastByZipCode(zipCode: Long, date: Long) = forecastDbHelper.use {
+    override fun requestForecastByZipCode(zipCode: Long, date: Long) = forecastDbHelper.use {
         val dailyRequest = "${DayForecastTable.CITY_ID} = ? AND ${DayForecastTable.DATE} >= ?"
         val dailyForecast = select(DayForecastTable.NAME)
                 .whereSimple(dailyRequest, zipCode.toString(), date.toString())
