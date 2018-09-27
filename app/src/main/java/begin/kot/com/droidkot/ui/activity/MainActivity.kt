@@ -34,11 +34,13 @@ class MainActivity : AppCompatActivity() {
         doAsync {
             val result = RequestForecastCommand(94043).execute()
             uiThread { it ->
-                val adapter = ForecastListAdapter(result) { toast(it.description) }
+                val adapter = ForecastListAdapter(result) {
+                    startActivity<DetailActivity>(DetailActivity.ID to it.id, DetailActivity.CITY_NAME to result.city)
+                }
                 forcastList.adapter = adapter
+                title = "${result.city} (${result.country})"
             }
         }
-
 
     }
 

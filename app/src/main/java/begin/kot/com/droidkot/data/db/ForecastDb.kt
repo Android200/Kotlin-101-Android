@@ -3,10 +3,7 @@ package begin.kot.com.droidkot.data.db
 import begin.kot.com.droidkot.data.db.*
 import begin.kot.com.droidkot.domain.datasource.ForecastDataSource
 import begin.kot.com.droidkot.domain.model.ForecastList
-import begin.kot.com.droidkot.extensions.clear
-import begin.kot.com.droidkot.extensions.parseList
-import begin.kot.com.droidkot.extensions.parseOpt
-import begin.kot.com.droidkot.extensions.toVarargArray
+import begin.kot.com.droidkot.extensions.*
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 import java.util.*
@@ -25,6 +22,12 @@ class ForecastDb(private val forecastDbHelper: ForecastDbHelper = ForecastDbHelp
                 .parseOpt { CityForecast(HashMap(it), dailyForecast) }
 
         if (city != null) dataMapper.convertToDomain(city) else null
+    }
+
+    override fun requestDayForecast(id: Long) = forecastDbHelper.use {
+        val forecast = select(DayForecastTable.NAME).byId(id).
+                parseOpt { DayForecast(HashMap(it)) }
+        if (forecast != null) dataMapper.convertDayToDomain(forecast) else null
     }
 
     fun saveForecast(forecast: ForecastList) = forecastDbHelper.use {
