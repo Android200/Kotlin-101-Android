@@ -32,7 +32,6 @@ class DetailActivity : AppCompatActivity(), ToolbarManager{
         setContentView(R.layout.activity_detail)
         initToolbar()
 
-        title = intent.getStringExtra(CITY_NAME)
         toolbarTitle = intent.getStringExtra(CITY_NAME)
         enableHomeAsUp{ onBackPressed() }
 
