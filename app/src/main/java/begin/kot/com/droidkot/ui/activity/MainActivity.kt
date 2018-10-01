@@ -3,6 +3,7 @@ package begin.kot.com.droidkot.ui.activity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
 import begin.kot.com.droidkot.R
 import begin.kot.com.droidkot.domain.commands.RequestForecastCommand
 import begin.kot.com.droidkot.ui.adapter.ForecastListAdapter
@@ -10,7 +11,9 @@ import org.jetbrains.anko.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ToolbarManager {
+
+    override val toolbar by lazy { find<Toolbar> (R.id.toolbar) }
 
     private val items = listOf(
             "Mon 6/23 - Sunny - 31/17",
@@ -24,9 +27,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initToolbar()
 
         //val forcastList = find<RecyclerView>(R.id.forcast_list)// using anko library
         forcastList.layoutManager = LinearLayoutManager(this)
+        attachToScroll(forcastList)
 
 
 
@@ -38,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity<DetailActivity>(DetailActivity.ID to it.id, DetailActivity.CITY_NAME to result.city)
                 }
                 forcastList.adapter = adapter
-                title = "${result.city} (${result.country})"
+                toolbarTitle = "${result.city} (${result.country})"
             }
         }
 
