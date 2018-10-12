@@ -6,12 +6,16 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
 import begin.kot.com.droidkot.R
 import begin.kot.com.droidkot.domain.commands.RequestForecastCommand
+import begin.kot.com.droidkot.extensions.DelegatesExt
 import begin.kot.com.droidkot.ui.adapter.ForecastListAdapter
 import org.jetbrains.anko.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), ToolbarManager {
+
+    private val zipCode: Long by DelegatesExt.preference(this, SettingsActivity.ZIP_CODE,
+            SettingsActivity.DEFAULT_ZIP)
 
     override val toolbar by lazy { find<Toolbar> (R.id.toolbar) }
 
@@ -33,20 +37,26 @@ class MainActivity : AppCompatActivity(), ToolbarManager {
         forcastList.layoutManager = LinearLayoutManager(this)
         attachToScroll(forcastList)
 
+    }
 
+    override fun onResume() {
+        super.onResume()
+        loadForecast()
+    }
 
-
-        doAsync {
-            val result = RequestForecastCommand(94043).execute()
-            uiThread { it ->
-                val adapter = ForecastListAdapter(result) {
-                    startActivity<DetailActivity>(DetailActivity.ID to it.id, DetailActivity.CITY_NAME to result.city)
-                }
-                forcastList.adapter = adapter
-                toolbarTitle = "${result.city} (${result.country})"
+    private fun loadForecast() = doAsync {
+        val result = RequestForecastCommand(zipCode).execute()
+        uiThread {
+            val adapter = ForecastListAdapter(result) {
+                startActivity<DetailActivity>(DetailActivity.ID to it.id,
+                        DetailActivity.CITY_NAME to result.city)
             }
+            forcastList.adapter = adapter
+            toolbarTitle = "${result.city} (${result.country})"
         }
-
     }
 
 }
+
+
+
